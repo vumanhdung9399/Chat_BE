@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
-const { error422, success200 } = require("@/config/sendRes");
+const { error422, success200, error500 } = require("@/config/sendRes");
 
 const secretKey = "your_secret_key";
 const { validationResult } = require("express-validator");
@@ -52,8 +52,11 @@ const Register = async (req, res) => {
     password,
     email,
   });
-
-  //
+  if (user) {
+    res.status(200).json(success200())
+  } else {
+    res.status(500).json(error500())
+  }
 };
 
 const GetUser = (req, res) => {

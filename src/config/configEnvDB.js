@@ -6,9 +6,12 @@ module.exports = {
     password: process.env.DB_PASSWORD || null,
     database: process.env.DB_NAME || "database_dev",
     host: process.env.DB_HOST || "127.0.0.1",
-    port: process.env.PORT,
+    port: 3307,
     dialect: "mysql",
     logging: false,
+    dialectOptions: {
+      connectTimeout: 60000
+    },
   },
   test: {
     username: process.env.DB_USER || "root",

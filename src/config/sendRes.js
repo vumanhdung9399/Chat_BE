@@ -23,8 +23,17 @@ const error422 = (error = null, message = "validation") => {
   };
 };
 
+const error500 = (error = null, message = "Internal Server Error") => {
+  return {
+    status: 500,
+    data: [],
+    message: message
+  }
+}
+
 module.exports = {
   error401,
   error422,
   success200,
+  error500
 };

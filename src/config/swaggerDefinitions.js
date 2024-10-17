@@ -134,7 +134,7 @@
  *                type: object
  *                properties:
  *                  status:
- *                    type: string
+ *                    type: number
  *                    example: 200
  *                  data:
  *                    type: array
@@ -142,6 +142,22 @@
  *                  message:
  *                    type: string
  *                    example: "Successful"
+ *        '500':
+ *          description: Dang ky that bai
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  status:
+ *                    type: number
+ *                    example: 500
+ *                  data:
+ *                    type: array
+ *                    example: []
+ *                  message:
+ *                    type: string
+ *                    example: "Internal Server Error"
  */
 
 /**
