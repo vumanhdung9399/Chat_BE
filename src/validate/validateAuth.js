@@ -49,7 +49,7 @@ const RegisterValidate = [
     .isLength({ min: 8 })
     .withMessage("Password phai co it nhat 8 ky tu"),
   body("password")
-    .isLength({ min: 50 })
+    .isLength({ max: 50 })
     .withMessage("Password cho phep toi da 50 ky tu"),
   body("re-password").custom((value, { req }) => {
     if (value != req.body.password) {

@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { error401 } = require("@/config/sendRes");
-const secretkey = "your-secret-key";
+const secretkey = "your_secret_key";
 const User = require("@/models/user");
 
 const authenticateJWT = (req, res, next) => {

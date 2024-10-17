@@ -29,14 +29,17 @@ const User = sequelize.define(
         is_active: {
             type: DataTypes.BOOLEAN,
             allowNull: true,
+            defaultValue: false
         },
         is_reported: {
             type: DataTypes.BOOLEAN,
             allowNull: true,
+            defaultValue: false
         },
         is_blocked: {
             type: DataTypes.BOOLEAN,
-            allowNull: false,
+            allowNull: true,
+            defaultValue: false
         },
         createdAt: {
             type: DataTypes.DATE,

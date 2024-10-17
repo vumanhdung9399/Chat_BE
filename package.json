@@ -6,13 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon ./src/server.js",
+    "migrate": "npx sequelize-cli db:migrate --config src/config/configEnvDB.js --migrations-path src/migrations",
+    "seed": "npx sequelize-cli db:seed:all --config src/config/configEnvDB.js --seeders-path src/seeders",
     "sequelize": "sequelize"
   },
   "keywords": [
     "nodejs"
   ],
   "sequelize-cli": {
-    "config": ".src/config/configEnvDB.js",
+    "config": "./src/config/configEnvDB.js",
     "models-path": "./src/models",
     "migrations-path": "./src/migrations",
     "seeders-path": "./src/seeders"
@@ -30,6 +32,7 @@
     "module-alias": "^2.2.3",
     "mysql2": "^3.11.3",
     "nodemon": "^3.1.7",
+    "redis": "^4.7.0",
     "sequelize": "^6.37.4",
     "sequelize-cli": "^6.6.2",
     "socket.io": "^4.8.0",
