@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const redis = require('redis');
 const { error401 } = require("@/config/sendRes");
-const secretkey = "your_secret_key";
+const { JWT_SECRET } = require("@/config/configJWT");
 const User = require("@/models/user");
 
 const redisClient = redis.createClient({
@@ -14,7 +14,7 @@ redisClient.connect().catch((err) => {console.log(err)});
 const authenticateJWT = async (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
   if (token) {
-    jwt.verify(token, secretkey, async (err, user) => {
+    jwt.verify(token, JWT_SECRET, async (err, user) => {
       if (err) {
         return res.sendStatus(403);
       } else {

@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon ./src/server.js",
     "migrate": "npx sequelize-cli db:migrate --config src/config/configEnvDB.js --migrations-path src/migrations",
+    "migrate:undo": "npx sequelize-cli db:migrate:undo --config src/config/configEnvDB.js --migrations-path src/migrations",
     "seed": "npx sequelize-cli db:seed:all --config src/config/configEnvDB.js --seeders-path src/seeders",
     "sequelize": "sequelize"
   },
