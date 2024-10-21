@@ -80,12 +80,17 @@
  *              schema:
  *                type: object
  *                properties:
- *                  accessToken:
+ *                  status:
+ *                    type: number
+ *                    example: 200
+ *                  data:
+ *                    type: object
+ *                    example:
+ *                      accessToken: "eyJhbGcijffnanfjeojfnaunfenainfei"
+ *                      refreshToken: "eyJhbGcijffnanfjeojfnau"
+ *                  message:
  *                    type: string
- *                    example: "eyJhbGcijffnanfjeojfnaunfenainfei"
- *                  refreshToken:
- *                    type: string
- *                    example: "eyJhbGcijffnanfjeojfnau"
+ *                    example: "Successful"
  *        '401':
  *          descriotion: Thong tin dang nhap khong dung
  *          content:
@@ -158,6 +163,86 @@
  *                  message:
  *                    type: string
  *                    example: "Internal Server Error"
+ */
+
+/**
+ *  @swagger
+ *  /refresh-token:
+ *    post:
+ *      summary: lay lai token
+ *      requestBody:
+ *        description: refresh token
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                refreshToken:
+ *                  type: string
+ *                  example: "dfjabfbefhuajbfaeufewbfejfj"
+ *      responses:
+ *        '200':
+ *          description: refresh token thanh cong
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  status:
+ *                    type: number
+ *                    example: 200
+ *                  data:
+ *                    type: object
+ *                    example:
+ *                      accessToken: "jfnejfenjenadfjfjejfejb"
+ *                  message:
+ *                    type: string
+ *                    example: "Successful"
+ *        '401':
+ *          descriotion: Token khong hop le
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    example: "Token khong hop le"
+ */
+
+/**
+ *  @swagger
+ *  /logout:
+ *    post:
+ *      summary: Dang xuat
+ *      responses:
+ *        '200':
+ *          description: Dang xuat thanh cong
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  status:
+ *                    type: number
+ *                    example: 200
+ *                  data:
+ *                    type: array
+ *                    example: []
+ *                  message:
+ *                    type: string
+ *                    example: "Dang xuat thanh cong"
+ *        '401':
+ *          descriotion: Invalid credentials
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    example: "Invalid credentials"
  */
 
 /**
