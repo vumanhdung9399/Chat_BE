@@ -92,7 +92,7 @@
  *                    type: string
  *                    example: "Successful"
  *        '401':
- *          descriotion: Thong tin dang nhap khong dung
+ *          description: Thong tin dang nhap khong dung
  *          content:
  *            application/json:
  *              schema:
@@ -200,7 +200,7 @@
  *                    type: string
  *                    example: "Successful"
  *        '401':
- *          descriotion: Token khong hop le
+ *          description: Token khong hop le
  *          content:
  *            application/json:
  *              schema:
@@ -234,7 +234,7 @@
  *                    type: string
  *                    example: "Dang xuat thanh cong"
  *        '401':
- *          descriotion: Invalid credentials
+ *          description: Invalid credentials
  *          content:
  *            application/json:
  *              schema:
@@ -243,6 +243,65 @@
  *                  message:
  *                    type: string
  *                    example: "Invalid credentials"
+ */
+
+/**
+ *  @swagger
+ *  /change-password:
+ *    post:
+ *      summary: Thay doi mat khau
+ *      requestBody:
+ *        description: Thong tin thay doi password
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                old_password:
+ *                  type: string
+ *                  example: "12345678"
+ *                new_password:
+ *                  type: string
+ *                  format: password
+ *                  example: "123456789"
+ *                re_password:
+ *                  type: string
+ *                  format: password
+ *                  example: "123456789"
+ *      responses:
+ *        '200':
+ *          description: Doi mat khau thanh cong
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  status:
+ *                    type: number
+ *                    example: 200
+ *                  data:
+ *                    type: array
+ *                    example: []
+ *                  message:
+ *                    type: string
+ *                    example: "Doi mat khau thanh cong"
+  *        '500':
+ *          description: Dang ky that bai
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  status:
+ *                    type: number
+ *                    example: 500
+ *                  data:
+ *                    type: array
+ *                    example: []
+ *                  message:
+ *                    type: string
+ *                    example: "Internal Server Error"
  */
 
 /**
@@ -292,7 +351,7 @@
  *                    type: string
  *                    example: date-time
  *        '401':
- *          descriotion: Invalid credentials
+ *          description: Invalid credentials
  *          content:
  *            application/json:
  *              schema:

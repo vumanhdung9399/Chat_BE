@@ -59,7 +59,23 @@ const RegisterValidate = [
   }),
 ];
 
+const ChangePasswordValidate = [
+  body("new_password")
+    .isLength({ min: 8 })
+    .withMessage("Password phai co it nhat 8 ky tu"),
+  body("new_password")
+    .isLength({ max: 50 })
+    .withMessage("Password cho phep toi da 50 ky tu"),
+  body("re_password").custom((value, { req }) => {
+    if (value != req.body.new_password) {
+      throw new Error("Mat khau xac nhan khong khop!");
+    }
+    return true;
+  }),
+];
+
 module.exports = {
   LoginValidate,
   RegisterValidate,
+  ChangePasswordValidate
 };

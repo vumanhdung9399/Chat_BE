@@ -92,7 +92,9 @@ const RefreshToken = async (req, res) => {
   });
 
   if (!tokenRecord || tokenRecord.expires_at < new Date()) {
-    return res.sendStatus(403).json({ message: "Refresh token khong hop le hoac da het han" });
+    return res
+      .sendStatus(403)
+      .json({ message: "Refresh token khong hop le hoac da het han" });
   }
 
   const payload = {
@@ -117,12 +119,50 @@ const Logout = (req, res) => {
         if (!userData) {
           return res.status(404).send("Khong tim thay nguoi dung");
         }
-        await RefreshTokenModel.destroy({ where: { users_id: userData.id } })
-        return res.status(200).json(success200(null, 'Dang xuat thanh cong'))
+        await RefreshTokenModel.destroy({ where: { users_id: userData.id } });
+        return res.status(200).json(success200(null, "Dang xuat thanh cong"));
       }
     });
   }
-}
+};
+
+const ChangePassword = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json(error422(errors.array()));
+  }
+
+  const { old_password, new_password } = req.body;
+  try {
+    const user = await User.findOne({ where: { id: req.user.id } });
+    if (!user) {
+      return res.status(404).json({ message: "Người dùng không tồn tại" });
+    }
+
+    // 3. Kiểm tra mật khẩu cũ có đúng không
+    const isPasswordMatch = await bcrypt.compare(
+      old_password,
+      req.user.password
+    );
+    if (!isPasswordMatch) {
+      return res.status(401).json({ message: "Mật khẩu cũ không đúng" });
+    }
+
+    // 5. Băm (hash) mật khẩu mới
+    const salt = await bcrypt.genSalt(10);
+    const hashedNewPassword = await bcrypt.hash(new_password, salt);
+
+    // 6. Cập nhật mật khẩu mới
+    await User.update(
+      { password: hashedNewPassword },
+      { where: { id: req.user.id } }
+    );
+
+    res.status(200).json(success200(null, "Đổi mật khẩu thành công"));
+  } catch (err) {
+    res.status(500).json(error500());
+  }
+};
 
 const GetUser = (req, res) => {
   if (req.user) {
@@ -137,5 +177,6 @@ module.exports = {
   Register,
   GetUser,
   RefreshToken,
-  Logout
+  Logout,
+  ChangePassword,
 };
