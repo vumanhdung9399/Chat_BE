@@ -56,7 +56,7 @@ const Login = async (req, res) => {
       res.status(401).json({ message: "Tai khoan hoac mat khau khong dung" });
     }
   } else {
-    res.status(401).json({ message: "Invalid credentials" });
+    res.status(401).json({ message: "Tai khoan hoac mat khau khong dung" });
   }
 };
 
@@ -69,9 +69,9 @@ const Register = async (req, res) => {
   const { username, password, email } = req.body;
 
   const user = await User.create({
-    username,
-    password,
-    email,
+    username: username,
+    password: await bcrypt.hash(password, 10),
+    email: email,
   });
   if (user) {
     res.status(200).json(success200());

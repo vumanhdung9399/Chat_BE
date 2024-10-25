@@ -2,12 +2,8 @@ const { body } = require("express-validator");
 const User = require("@/models/user");
 
 const LoginValidate = [
-  body("username")
-    .isLength({ min: 4 })
-    .withMessage("Username phai co it nhat 4 ky tu"),
-  body("password")
-    .isLength({ min: 4 })
-    .withMessage("Password phai co it nhat 4 ky tu"),
+  body("username").notEmpty().withMessage("Username khong duoc de trong"),
+  body("password").notEmpty().withMessage("Password khong duoc de trong"),
 ];
 
 const RegisterValidate = [
@@ -51,7 +47,7 @@ const RegisterValidate = [
   body("password")
     .isLength({ max: 50 })
     .withMessage("Password cho phep toi da 50 ky tu"),
-  body("re-password").custom((value, { req }) => {
+  body("re_password").custom((value, { req }) => {
     if (value != req.body.password) {
       throw new Error("Mat khau xac nhan khong khop!");
     }
@@ -77,5 +73,5 @@ const ChangePasswordValidate = [
 module.exports = {
   LoginValidate,
   RegisterValidate,
-  ChangePasswordValidate
+  ChangePasswordValidate,
 };
