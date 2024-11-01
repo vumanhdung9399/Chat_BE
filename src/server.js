@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const socketConfig = require('@/config/socketIO');
+const wsConfig = require('@/config/ws');
 
 require('dotenv').config();
 
@@ -29,6 +30,7 @@ app.use(express.json());
 app.use('/', route);
 
 socketConfig(app);
+wsConfig(app);
 
 app.listen(port, hostname, () => {
     console.log(`Server running at port ${port}`)

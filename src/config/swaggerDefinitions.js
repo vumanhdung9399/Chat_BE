@@ -18,6 +18,39 @@
 /**
  *  @swagger
  *  components:
+ *    schemas:
+ *      Contact:
+ *        type: object
+ *        properties:
+ *          users_id:
+ *            type: integer
+ *            description: User ID
+ *            example: 1
+ *          phone:
+ *            type: integer
+ *            description: Phone number
+ *            example: 386132297
+ *          fullName:
+ *            type: string
+ *            description: name
+ *            example: "vu manh dung"
+ *          email:
+ *            type: string
+ *            description: Email
+ *            example: "dungvm8@fpt.com"
+ *          avatar:
+ *            type: string
+ *            description: Avatar
+ *            example: "http://google.com"
+ *          isOnline:
+ *            type: boolean
+ *            description: Online
+ *            example: true
+ */
+
+/**
+ *  @swagger
+ *  components:
  *    securitySchemes:
  *      bearerAuth:
  *        type: http
@@ -92,7 +125,7 @@
  *                    type: string
  *                    example: "Successful"
  *        '401':
- *          descriotion: Thong tin dang nhap khong dung
+ *          description: Thong tin dang nhap khong dung
  *          content:
  *            application/json:
  *              schema:
@@ -122,11 +155,14 @@
  *                email:
  *                  type: string
  *                  example: "dungvm8@gmail.com"
+ *                fullName:
+ *                  type: string
+ *                  example: "string"
  *                password:
  *                  type: string
  *                  format: password
  *                  example: "12345678"
- *                re-password:
+ *                re_password:
  *                  type: string
  *                  format: password
  *                  example: "12345678"
@@ -162,7 +198,7 @@
  *                    example: []
  *                  message:
  *                    type: string
- *                    example: "Internal Server Error"
+ *                    example: "Loi he thong, vui long thu lai"
  */
 
 /**
@@ -200,7 +236,7 @@
  *                    type: string
  *                    example: "Successful"
  *        '401':
- *          descriotion: Token khong hop le
+ *          description: Token khong hop le
  *          content:
  *            application/json:
  *              schema:
@@ -234,7 +270,7 @@
  *                    type: string
  *                    example: "Dang xuat thanh cong"
  *        '401':
- *          descriotion: Invalid credentials
+ *          description: Invalid credentials
  *          content:
  *            application/json:
  *              schema:
@@ -243,6 +279,65 @@
  *                  message:
  *                    type: string
  *                    example: "Invalid credentials"
+ */
+
+/**
+ *  @swagger
+ *  /change-password:
+ *    post:
+ *      summary: Thay doi mat khau
+ *      requestBody:
+ *        description: Thong tin thay doi password
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                old_password:
+ *                  type: string
+ *                  example: "12345678"
+ *                new_password:
+ *                  type: string
+ *                  format: password
+ *                  example: "123456789"
+ *                re_password:
+ *                  type: string
+ *                  format: password
+ *                  example: "123456789"
+ *      responses:
+ *        '200':
+ *          description: Doi mat khau thanh cong
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  status:
+ *                    type: number
+ *                    example: 200
+ *                  data:
+ *                    type: array
+ *                    example: []
+ *                  message:
+ *                    type: string
+ *                    example: "Doi mat khau thanh cong"
+  *        '500':
+ *          description: Dang ky that bai
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  status:
+ *                    type: number
+ *                    example: 500
+ *                  data:
+ *                    type: array
+ *                    example: []
+ *                  message:
+ *                    type: string
+ *                    example: "Loi he thong, vui long thu lai"
  */
 
 /**
@@ -290,9 +385,9 @@
  *                    format: date-time
  *                  updatedAt:
  *                    type: string
- *                    example: date-time
+ *                    format: date-time
  *        '401':
- *          descriotion: Invalid credentials
+ *          description: Invalid credentials
  *          content:
  *            application/json:
  *              schema:
@@ -301,4 +396,134 @@
  *                  message:
  *                    type: string
  *                    example: "Invalid credentials"
+ */
+
+
+/**
+ *  @swagger
+ *  /contact/add:
+ *    post:
+ *      summary: Them lien he
+ *      requestBody:
+ *        description: Them lien he
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                users_id:
+ *                  type: string
+ *                  example: "1"
+ *      responses:
+ *        '200':
+ *          description: Them lien he thanh vong
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  status:
+ *                    type: number
+ *                    example: 200
+ *                  data:
+ *                    type: object
+ *                    example:
+ *                      id: "1"
+ *                      fullName: "vu manh dung"
+ *                      email: "dungvm8@fpt.com"
+ *                      phone: 0386132297
+ *                      createdAt: "2024-10-30T09:52:22.073Z"
+ *                      updatedAt: "2024-10-30T09:52:22.073Z"
+ *                  message:
+ *                    type: string
+ *                    example: "Them lien he thanh cong"
+ *        '500':
+ *          description: error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    example: "Loi he thong, vui long thu lai"
+ */
+
+
+/**
+ *  @swagger
+ *  /contact/list:
+ *    get:
+ *      summary: Danh sach contact
+ *      responses:
+ *        '200':
+ *          description: Lay danh sach contact thanh cong
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  status:
+ *                    type: number
+ *                    example: 200
+ *                  data:
+ *                    type: array
+ *                    items:
+ *                      $ref: '#/components/schemas/Contact'
+ *        '500':
+ *          description: error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    example: "Loi he thong, vui long thu lai"
+ */
+
+/**
+ *  @swagger
+ *  /contact/delete:
+ *    post:
+ *      summary: Xoa lien he
+ *      requestBody:
+ *        description: Xoa lien he
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                contact_id:
+ *                  type: number
+ *                  example: 1
+ *      responses:
+ *        '200':
+ *          description: Xoa lien he thanh cong
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  status:
+ *                    type: number
+ *                    example: 200
+ *                  data:
+ *                    type: array
+ *                    example: []
+ *                  message:
+ *                    type: string
+ *                    example: "Xoa lien he thanh cong"
+ *        '500':
+ *          description: error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    example: "Loi he thong, vui long thu lai"
  */

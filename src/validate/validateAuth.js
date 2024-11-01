@@ -2,18 +2,18 @@ const { body } = require("express-validator");
 const User = require("@/models/user");
 
 const LoginValidate = [
-  body("username")
-    .isLength({ min: 4 })
-    .withMessage("Username phai co it nhat 4 ky tu"),
-  body("password")
-    .isLength({ min: 4 })
-    .withMessage("Password phai co it nhat 4 ky tu"),
+  body("username").notEmpty().withMessage("Username khong duoc de trong"),
+  body("password").notEmpty().withMessage("Password khong duoc de trong"),
 ];
 
 const RegisterValidate = [
   body("email")
+    .notEmpty()
+    .withMessage("Email khong duoc de trong")
+    .bail()
     .isEmail()
     .withMessage("Email khong hop le")
+    .bail()
     .custom(async (value, { req }) => {
       const findEmail = await User.findOne({
         where: {
@@ -51,8 +51,23 @@ const RegisterValidate = [
   body("password")
     .isLength({ max: 50 })
     .withMessage("Password cho phep toi da 50 ky tu"),
-  body("re-password").custom((value, { req }) => {
+  body("re_password").custom((value, { req }) => {
     if (value != req.body.password) {
+      throw new Error("Mat khau xac nhan khong khop!");
+    }
+    return true;
+  }),
+];
+
+const ChangePasswordValidate = [
+  body("new_password")
+    .isLength({ min: 8 })
+    .withMessage("Password phai co it nhat 8 ky tu"),
+  body("new_password")
+    .isLength({ max: 50 })
+    .withMessage("Password cho phep toi da 50 ky tu"),
+  body("re_password").custom((value, { req }) => {
+    if (value != req.body.new_password) {
       throw new Error("Mat khau xac nhan khong khop!");
     }
     return true;
@@ -62,4 +77,5 @@ const RegisterValidate = [
 module.exports = {
   LoginValidate,
   RegisterValidate,
+  ChangePasswordValidate,
 };

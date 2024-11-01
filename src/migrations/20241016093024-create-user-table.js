@@ -31,6 +31,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true
       },
+      avatar: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
       is_active: {
         type: Sequelize.BOOLEAN,
         allowNull: true
