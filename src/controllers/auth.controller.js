@@ -40,7 +40,6 @@ const Login = async (req, res) => {
       const refreshToken = jwt.sign(payload, JWT_REFRESH_SECRET, {
         expiresIn: JWT_REFRESH_EXPIRES_IN,
       });
-
       await RefreshTokenModel.create({
         users_id: user.id,
         token: refreshToken,
@@ -66,12 +65,13 @@ const Register = async (req, res) => {
     return res.status(422).json(error422(errors.array()));
   }
 
-  const { username, password, email } = req.body;
+  const { username, password, email, fullName } = req.body;
 
   const user = await User.create({
     username: username,
     password: await bcrypt.hash(password, 10),
     email: email,
+    fullName: fullName
   });
   if (user) {
     res.status(200).json(success200());

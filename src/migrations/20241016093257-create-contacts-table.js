@@ -10,19 +10,27 @@ module.exports = {
         autoIncrement: true,
         allowNull: false
       },
+      users_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
       fullName: {
         type: Sequelize.STRING,
         allowNull: false
       },
       phone: {
         type: Sequelize.BIGINT,
-        allowNull: false,
+        allowNull: true,
         unique: true
       },
       email: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true
+      },
+      avatar: {
+        type: Sequelize.STRING,
+        allowNull: true
       },
       createdAt: {
         type: Sequelize.DATE,

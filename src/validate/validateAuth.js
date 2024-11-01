@@ -8,8 +8,12 @@ const LoginValidate = [
 
 const RegisterValidate = [
   body("email")
+    .notEmpty()
+    .withMessage("Email khong duoc de trong")
+    .bail()
     .isEmail()
     .withMessage("Email khong hop le")
+    .bail()
     .custom(async (value, { req }) => {
       const findEmail = await User.findOne({
         where: {

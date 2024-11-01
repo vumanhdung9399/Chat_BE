@@ -1,5 +1,6 @@
 const { Server } = require("socket.io");
 const http = require("http");
+const { userOnline, indentify, disconnectContact } = require("@/controllers/socketContact.controller");
 
 module.exports = function (app) {
   const server = http.createServer(app);
@@ -13,6 +14,10 @@ module.exports = function (app) {
   io.on("connection", (socket) => {
     console.log("A user connected:", socket.id);
 
+    indentify(socket);
+
+    userOnline(socket);
+
     socket.on("message", (msg) => {
       console.log("Message received: " + msg);
 
@@ -21,6 +26,7 @@ module.exports = function (app) {
 
     socket.on("disconnect", () => {
       console.log("A user disconnected: ", socket.id);
+      disconnectContact(socket);
     });
   });
   server.listen(3000);
