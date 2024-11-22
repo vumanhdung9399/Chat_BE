@@ -39,10 +39,19 @@ const error500 = (error = null, message = "Loi he thong, vui long thu lai") => {
   }
 }
 
+const error400 = (message = "Loi he thong, vui long thu lai") => {
+  return {
+    status: 400,
+    data: [],
+    message: message
+  }
+}
+
 module.exports = {
   error401,
   error422,
   success200,
   error500,
-  error404
+  error404,
+  error400
 };

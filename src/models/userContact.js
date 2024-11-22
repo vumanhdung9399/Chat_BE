@@ -9,6 +9,10 @@ const UserContact = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    users_id_two: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     contact_id: {
       type: DataTypes.INTEGER,
       allowNull: false,

@@ -22,10 +22,18 @@
  *      Contact:
  *        type: object
  *        properties:
- *          users_id:
+ *          id:
  *            type: integer
  *            description: User ID
  *            example: 1
+ *          username:
+ *            type: string
+ *            description: name
+ *            example: "dungvm8"
+ *          email:
+ *            type: string
+ *            description: Email
+ *            example: "dungvm8@fpt.com"
  *          phone:
  *            type: integer
  *            description: Phone number
@@ -34,10 +42,6 @@
  *            type: string
  *            description: name
  *            example: "vu manh dung"
- *          email:
- *            type: string
- *            description: Email
- *            example: "dungvm8@fpt.com"
  *          avatar:
  *            type: string
  *            description: Avatar
@@ -46,6 +50,39 @@
  *            type: boolean
  *            description: Online
  *            example: true
+ */
+
+/**
+ *  @swagger
+ *  components:
+ *    schemas:
+ *      ContactConfirm:
+ *        type: object
+ *        properties:
+ *          id:
+ *            type: integer
+ *            description: User ID
+ *            example: 1
+ *          username:
+ *            type: string
+ *            description: name
+ *            example: "dungvm8"
+ *          email:
+ *            type: string
+ *            description: Email
+ *            example: "dungvm8@fpt.com"
+ *          phone:
+ *            type: integer
+ *            description: Phone number
+ *            example: 386132297
+ *          fullName:
+ *            type: string
+ *            description: name
+ *            example: "vu manh dung"
+ *          avatar:
+ *            type: string
+ *            description: Avatar
+ *            example: "http://google.com"
  */
 
 /**
@@ -413,8 +450,11 @@
  *              type: object
  *              properties:
  *                users_id:
+ *                  type: number
+ *                  example: 1
+ *                email:
  *                  type: string
- *                  example: "1"
+ *                  example: "dungvm9@fpt.com"
  *      responses:
  *        '200':
  *          description: Them lien he thanh vong
@@ -485,6 +525,70 @@
 
 /**
  *  @swagger
+ *  /contact/list-wait-conf:
+ *    get:
+ *      summary: Danh sach contact wait confirm
+ *      responses:
+ *        '200':
+ *          description: Lay danh sach contact thanh cong
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  status:
+ *                    type: number
+ *                    example: 200
+ *                  data:
+ *                    type: array
+ *                    items:
+ *                      $ref: '#/components/schemas/ContactConfirm'
+ *        '500':
+ *          description: error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    example: "Loi he thong, vui long thu lai"
+ */
+
+/**
+ *  @swagger
+ *  /contact/list-send:
+ *    get:
+ *      summary: Danh sach contact send
+ *      responses:
+ *        '200':
+ *          description: Lay danh sach contact thanh cong
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  status:
+ *                    type: number
+ *                    example: 200
+ *                  data:
+ *                    type: array
+ *                    items:
+ *                      $ref: '#/components/schemas/ContactConfirm'
+ *        '500':
+ *          description: error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    example: "Loi he thong, vui long thu lai"
+ */
+
+/**
+ *  @swagger
  *  /contact/delete:
  *    post:
  *      summary: Xoa lien he
@@ -496,7 +600,7 @@
  *            schema:
  *              type: object
  *              properties:
- *                contact_id:
+ *                users_id:
  *                  type: number
  *                  example: 1
  *      responses:

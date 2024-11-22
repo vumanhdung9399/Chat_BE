@@ -2,6 +2,7 @@ const http = require("http");
 const WebSocket = require("ws");
 const { Op } = require("sequelize");
 const { User, UserContact, Contact } = require("@/models");
+const { getUserContacts, getOnlineContactsForUser } = require("@/controllers/contact.controller");
 const redisClient = require("@/config/redis");
 
 module.exports = async function (app) {
@@ -47,84 +48,12 @@ module.exports = async function (app) {
     });
   });
 
-  // Hàm lấy danh sách contact online của user
-  async function getOnlineContactsForUser(userId) {
-    const contacts = await getUserContacts(userId);
-
-    const onlineContacts = [];
-    for (let i = 0; i < contacts.length; i++) {
-      await redisClient.sismember(
-        "onlineUsers",
-        contacts[i],
-        (err, isMember) => {
-          if (err) {
-            console.log(err);
-          } else if (isMember) {
-            onlineContacts.push(contacts[i]);
-          }
-        }
-      );
-    }
-    return onlineContacts;
-  }
-
-  // Hàm lấy danh sách contact của user từ cơ sở dữ liệu
-  async function getUserContacts(userId) {
-    const filterContact = await UserContact.findAll({
-      where: {
-        users_id: userId,
-      },
-    });
-
-    if (!filterContact.length) {
-      let listContact = await Contact.findAll({
-        attributes: ["id"],
-        where: {
-          users_id: userId,
-        },
-      });
-      const listContactJSON = listContact.map((item) => {
-        return item.toJSON().id;
-      });
-      const users = await UserContact.findAll({
-        attributes: ["users_id", "contact_id"],
-        where: {
-          contact_id: {
-            [Op.in]: listContactJSON,
-          },
-        },
-      });
-
-      return users.map((item) => {
-        return item.toJSON().users_id;
-      });
-    }
-    let arrUser = [];
-    for (let i = 0; i < filterContact.length; i++) {
-      const findContact = await Contact.findOne({
-        where: {
-          id: filterContact[i].contact_id,
-        },
-      });
-
-      if (findContact) {
-        const findUser = await User.findOne({
-          where: {
-            email: findContact.email,
-          },
-        });
-        arrUser.push(findUser.id);
-      }
-    }
-    return arrUser;
-  }
-
   // Gửi trạng thái online/offline đến các contact của user
   async function notifyContactsStatus(userId, isOnline) {
     const contacts = await getUserContacts(userId);
-
-    contacts.forEach((contactId) => {
-      const contactSocket = connectedUsers.get(contactId);
+    
+    contacts.forEach((contact) => {
+      const contactSocket = connectedUsers.get(contact.id);
       if (contactSocket) {
         contactSocket.send(
           JSON.stringify({
