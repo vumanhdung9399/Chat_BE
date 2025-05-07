@@ -2,7 +2,7 @@ const http = require("http");
 const WebSocket = require("ws");
 const { Op } = require("sequelize");
 const { User, UserContact, Contact } = require("@/models");
-const { getUserContacts, getOnlineContactsForUser } = require("@/controllers/contact.controller");
+const { setWebSocketClient, getUserContacts, getOnlineContactsForUser } = require("@/controllers/contact.controller");
 const redisClient = require("@/config/redis");
 
 module.exports = async function (app) {
@@ -65,6 +65,8 @@ module.exports = async function (app) {
       }
     });
   }
+
+  setWebSocketClient(connectedUsers);
 
   // Bắt đầu server
   server.listen(8080, () => {

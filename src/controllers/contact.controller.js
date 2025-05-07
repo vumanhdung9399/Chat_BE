@@ -5,6 +5,12 @@ const { FRIEND } = require("@/helpers/constants");
 const redisClient = require("@/config/redis");
 const { Op } = require("sequelize");
 
+let webSocketClients = null;
+
+const setWebSocketClient = (client) => {
+  webSocketClients = client
+}
+
 const ListContact = async (req, res) => {
   try {
     const onlines = await getOnlineContactsForUser(req.user.id);
@@ -105,6 +111,32 @@ const AddContact = async (req, res) => {
         friend: FRIEND.WAIT_CONF
       }, {transaction})
       await transaction.commit();
+
+      let userOnline = null;
+
+      await redisClient.sismember(
+        "onlineUsers",
+        findUser.id,
+        (err, isMember) => {
+          if (err) {
+            console.log(err);
+          } else if (isMember) {
+            userOnline = findUser.id;
+          }
+        }
+      );
+      if (userOnline) {
+        const contactSocket = webSocketClients.get(userOnline);
+        if (contactSocket) {
+          contactSocket.send(
+            JSON.stringify({
+              type: "notification",
+              status: 1,
+              message: `Ban co mot loi moi ket ban tu ${req.user.fullName}`,
+            })
+          );
+        }
+      }
       res.status(200).json(success200(contact, "Them lien he thanh cong"));
     } else {
       res.status(400).json(error400("Lien he da ton tai"));
@@ -258,6 +290,7 @@ const getUserContactsSend = async (userId) => {
 }
 
 module.exports = {
+  setWebSocketClient,
   ListContact,
   ListContactWaitConf,
   ListContactSend,
